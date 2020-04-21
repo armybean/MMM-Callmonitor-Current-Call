@@ -15,24 +15,24 @@ Module.register("MMM-Callmonitor-Current-Call", {
 	},
 
 	// Define required translations.
-	getTranslations: function() {
+	getTranslations: function () {
 		return {
 			en: "translations/en.json",
 			de: "translations/de.json"
 		};
 	},
 
-	getScripts: function() {
+	getScripts: function () {
 		return ["moment.js"];
 	},
 
-	notificationReceived: function(notification, payload, sender) {
+	notificationReceived: function (notification, payload, sender) {
 		if (notification === "CALL_CONNECTED") {
 			this.active_calls[payload] = moment();
 			if (!this.timer) {
 				console.log("timer set");
 				var self = this;
-				this.timer = setInterval(function() {self.updateDom();}, 1000);
+				this.timer = setInterval(function () {self.updateDom();}, 1000);
 				this.updateDom(300);
 			}
 			console.log(this.active_calls);
@@ -47,7 +47,7 @@ Module.register("MMM-Callmonitor-Current-Call", {
 		}
 	},
 
-	start: function() {
+	start: function () {
 		//Create active_calls array
 		this.active_calls = {};
 		//set timer
@@ -55,7 +55,7 @@ Module.register("MMM-Callmonitor-Current-Call", {
 		Log.info("Starting module: " + this.name);
 	},
 
-	getDom: function() {
+	getDom: function () {
 		//Create table
 		var wrapper = document.createElement("table");
 		//set table style
@@ -64,7 +64,7 @@ Module.register("MMM-Callmonitor-Current-Call", {
 		var calls = this.active_calls;
 		console.log(this.active_calls);
 		//If there are no calls, set "noCall" text.
-		if (Object.keys(this.active_calls).length == 0 && this.data.header != null) {
+		if (Object.keys(this.active_calls).length === 0 && this.data.header != null) {
 			wrapper.innerHTML = this.translate("NoActiveCalls");
 			wrapper.className = "xsmall dimmed";
 			return wrapper;
@@ -78,13 +78,13 @@ Module.register("MMM-Callmonitor-Current-Call", {
 			callWrapper.className = "normal";
 
 			//Set caller of row
-			var caller =  document.createElement("td");
+			var caller = document.createElement("td");
 			caller.innerHTML = call;
 			caller.className = "title bright";
 			callWrapper.appendChild(caller);
 
 			//Set time of row
-			var time =  document.createElement("td");
+			var time = document.createElement("td");
 			time.innerHTML = moment.utc(moment(moment()).diff(moment(calls[call]))).format("HH:mm:ss");
 			time.className = "time light xsmall";
 			callWrapper.appendChild(time);
