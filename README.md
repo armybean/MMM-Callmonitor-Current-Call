@@ -1,8 +1,10 @@
 # MMM-Callmonitor-Current-Call
-This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror) and can display currently active calls. It needs [MMM-FRITZ-Box-Callmonitor](https://github.com/paviro/MMM-FRITZ-Box-Callmonitor) or another module that can send <code>CALL_CONNECTED</code> and <code>CALL_DISCONNECTED</code> notifications.
+This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror) and can display currently active calls. It needs [MMM-FRITZ-Box-Callmonitor](https://github.com/armybean/MMM-FRITZ-Box-Callmonitor) or another module that can send <code>CALL_CONNECTED</code> and <code>CALL_DISCONNECTED</code> notifications.
+
+I have forked the original repository by [`paviro`](https://github.com/paviro/MMM-Callmonitor-Current-Call) and extended it by adding arrows showing the direction of the call. Make sure to include my fork of [MMM-FRITZ-Box-Callmonitor](https://github.com/armybean/MMM-FRITZ-Box-Callmonitor) as this depends on it.
 
 ## Installation
-Navigate into your MagicMirror's `modules` folder and execute `git clone https://github.com/paviro/MMM-Callmonitor-Current-Call.git`.
+Navigate into your MagicMirror's `modules` folder and execute `git clone https://github.com/armybean/MMM-Callmonitor-Current-Call.git`.
 
 ## Using the module
 
@@ -13,12 +15,25 @@ modules: [
 		module: 'MMM-Callmonitor-Current-Call',
 		position: 'top_right',	// This can be any of the regions. Best results in left or right regions.
 		header: "Active Calls", // This is optional
+		config: {
+			// optional config goes here
+		}
 	}
 ]
 ````
 
+## Configuration options
+
+The following properties can be configured:
+
+| Option          | Possible Values | Description                                                                                                  |
+| --------------- | --------------- | ------------------------------------------------------------------------------------------------------------ |
+| `showDirection` | `true` or `false` <br>**Default:** `false` | Display of an arrow in front of Caller name showing incoming or outgoing call     |
+| `colorEnabled`  | `true` or `false` <br>**Default:** `false` | Show colored versions of the direction arrows (green = incoming, blue = outgoing) |
+
+
 ## Dependencies
-- [MMM-FRITZ-Box-Callmonitor](https://github.com/paviro/MMM-FRITZ-Box-Callmonitor)
+- [MMM-FRITZ-Box-Callmonitor](https://github.com/armybean/MMM-FRITZ-Box-Callmonitor) (Fork by armybean of paviro's original module)
 
 The MIT License (MIT)
 =====================

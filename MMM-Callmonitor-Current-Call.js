@@ -11,7 +11,8 @@ Module.register("MMM-Callmonitor-Current-Call", {
 
 	// Default module config.
 	defaults: {
-
+		showDirection: false,
+		colorEnabled: false
 	},
 
 	// Define required translations.
@@ -28,7 +29,11 @@ Module.register("MMM-Callmonitor-Current-Call", {
 
 	notificationReceived: function (notification, payload, sender) {
 		if (notification === "CALL_CONNECTED") {
-			this.active_calls[payload] = moment();
+			if (payload.hasOwnProperty('direction')) {
+				this.active_calls[payload.caller] = {start: moment(), direction: payload.direction};
+			} else {
+				this.active_calls[payload] = {start: moment(), direction: null};
+			}
 			if (!this.timer) {
 				console.log("timer set");
 				var self = this;
@@ -72,10 +77,35 @@ Module.register("MMM-Callmonitor-Current-Call", {
 
 		//For each call in calls
 		for (var call in calls) {
+			if (!calls.hasOwnProperty(call)) continue;
 
 			//Create callWrapper
 			var callWrapper = document.createElement("tr");
 			callWrapper.className = "normal";
+
+			if (this.config.showDirection) {
+				var iconWrapper = document.createElement("td");
+
+				//Set icon
+				var icon = document.createElement("i")
+				icon.style = "padding-right: 10px"
+				switch (calls[call].direction) {
+					case "in":
+						if (this.config.colorEnabled) {
+							icon.style += ";color: #96FF96";
+						}
+						icon.className = "fas fa-level-down-alt";
+						break;
+					case "out":
+						if (this.config.colorEnabled) {
+							icon.style += ";color: #BCDDFF";
+						}
+						icon.className = "fas fa-level-up-alt"
+						break;
+				}
+				iconWrapper.appendChild(icon)
+				callWrapper.appendChild(iconWrapper);
+			}
 
 			//Set caller of row
 			var caller = document.createElement("td");
